@@ -1,59 +1,92 @@
-// Función para mostrar la vista previa de la imagen seleccionada
-document.getElementById('imagen').addEventListener('change', function(event) {
-    const file = event.target.files[0]; // Obtener el archivo de imagen
-    const reader = new FileReader(); // Usar FileReader para leer la imagen
+document.addEventListener('DOMContentLoaded', function () {
+    // Seleccionamos el input de archivo y el contenedor de la vista previa
+    const inputImagen = document.getElementById('imagen');
+    const contenedorPreview = document.getElementById('imagen-preview');
 
-    if (file) {
-        // Generar una URL temporal para la imagen seleccionada
-        const imageUrl = URL.createObjectURL(file);
+    // Evento para mostrar la imagen seleccionada en el input
+    inputImagen.addEventListener('change', function() {
+        const file = inputImagen.files[0];
+        console.log("Archivo seleccionado:", file);
 
-        const imgPreview = document.getElementById('imagen-preview'); // Contenedor para la vista previa
-        imgPreview.innerHTML = ''; // Limpiar el contenedor antes de agregar la nueva imagen
-        const imgElement = document.createElement('img'); // Crear un nuevo elemento de imagen
-        imgElement.src = imageUrl; // Asignar la URL temporal a la fuente de la imagen
-        imgElement.alt = 'Vista previa de la imagen';
-        imgElement.classList.add('img-fluid'); // Hacer que la imagen sea responsiva
-        imgPreview.appendChild(imgElement); // Añadir la imagen al contenedor
+        if (file) {
+            // Crear un objeto FileReader para leer el archivo
+            const reader = new FileReader();
+
+            // Definir qué hacer cuando la imagen se ha leído
+            reader.onload = function(e) {
+                console.log("Imagen cargada con éxito", e.target.result);
+
+                // Crear un elemento de imagen para la vista previa
+                const imgElement = document.createElement('img');
+                imgElement.src = e.target.result; // Usar el resultado leído (data URL)
+                imgElement.classList.add('img-fluid');
+                imgElement.alt = 'Vista previa de la imagen';
+
+                // Limpiar el contenedor de la vista previa antes de agregar la nueva imagen
+                contenedorPreview.innerHTML = '';
+
+                // Agregar la imagen al contenedor de la vista previa
+                contenedorPreview.appendChild(imgElement);
+
+                // Subir la imagen a Imgur
+                uploadToImgur(file);
+            };
+
+            // Leer el archivo como una URL de datos
+            reader.readAsDataURL(file);
+
+            console.log("Iniciando la lectura del archivo...");
+        } else {
+            console.log("No se seleccionó ningún archivo.");
+        }
+    });
+
+    // Función para subir la imagen a Imgur
+    function uploadToImgur(file) {
+        const clientId = '4e8de725e3095d2'; // Tu Client ID de Imgur
+        const formData = new FormData();
+        formData.append('image', file);
+
+        // Enviar la solicitud POST a Imgur
+        fetch('https://api.imgur.com/3/image', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Client-ID ${clientId}`
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Imagen subida a Imgur:', data);
+            // Imprimir la URL de la imagen subida en Imgur
+            if (data.success) {
+                const imagenUrl = data.data.link;
+                console.log('URL de la imagen:', imagenUrl);
+
+                // Mostrar la imagen en la card usando la URL de Imgur
+                mostrarImagenEnCard("https://imgur.com/wgkoGB2");
+            }
+        })
+        .catch(error => {
+            console.error('Error al subir la imagen a Imgur:', error);
+        });
     }
-});
 
-// Función para manejar el formulario y agregar una receta
-document.getElementById('form-receta').addEventListener('submit', function(event) {
-    event.preventDefault();
+    // Función para mostrar la imagen en la card
+    function mostrarImagenEnCard(imagenUrl) {
+        // Suponiendo que tienes un contenedor con id 'card-imagen' donde mostrarás la imagen
+        const contenedorCard = document.getElementById('card-imagen');
 
-    // Obtener los valores del formulario
-    const nombre = document.getElementById('nombre').value;
-    const ingredientes = document.getElementById('ingredientes').value;
-    const pasos = document.getElementById('pasos').value;
-    const categoria = document.getElementById('categoria').value;
-    const imagen = document.getElementById('imagen').files[0]; // Imagen seleccionada
+        // Limpiar el contenedor antes de agregar la nueva imagen
+        contenedorCard.innerHTML = '';
 
-    // Comprobar si hay una imagen seleccionada
-    if (!imagen) {
-        alert("Por favor, selecciona una imagen para la receta.");
-        return;
+        // Crear un elemento de imagen y asignar la URL de Imgur
+        const imgElement = document.createElement('img');
+        imgElement.src = imagenUrl; // Usamos la URL obtenida de Imgur
+        imgElement.classList.add('img-fluid');
+        imgElement.alt = 'Imagen subida';
+
+        // Agregar la imagen al contenedor de la card
+        contenedorCard.appendChild(imgElement);
     }
-
-    // Crear una card para la receta
-    const recetaCard = document.createElement('div');
-    recetaCard.classList.add('col-md-4', 'mb-4');
-    recetaCard.innerHTML = `
-        <div class="card">
-            <img src="${URL.createObjectURL(imagen)}" class="card-img-top" alt="Receta">
-            <div class="card-body">
-                <h5 class="card-title">${nombre}</h5>
-                <p class="card-text"><strong>Ingredientes:</strong> ${ingredientes}</p>
-                <p class="card-text"><strong>Pasos:</strong> ${pasos}</p>
-                <p class="card-text"><strong>Categoría:</strong> ${categoria}</p>
-            </div>
-        </div>
-    `;
-
-    // Añadir la receta a la lista de recetas
-    const listaRecetas = document.getElementById('lista-recetas');
-    listaRecetas.appendChild(recetaCard);
-
-    // Limpiar el formulario
-    document.getElementById('form-receta').reset();
-    document.getElementById('imagen-preview').innerHTML = '';  // Limpiar la vista previa de la imagen
 });
