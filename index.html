@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recetario Interactivo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Recetario Interactivo</h1>
+
+        <!-- Formulario para agregar recetas -->
+        <form id="form-receta" class="my-4">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de la receta</label>
+                <input type="text" id="nombre" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="ingredientes" class="form-label">Ingredientes (separados por comas)</label>
+                <input type="text" id="ingredientes" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="pasos" class="form-label">Pasos (separados por comas)</label>
+                <input type="text" id="pasos" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="categoria" class="form-label">Categoría</label>
+                <input type="text" id="categoria" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="imagen" class="form-label">URL de la imagen</label>
+                <input type="url" id="imagen" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Agregar Receta</button>
+        </form>
+
+        <!-- Buscador de recetas -->
+        <div class="mb-4">
+            <input type="text" id="buscador" class="form-control" placeholder="Buscar recetas por nombre o categoría">
+        </div>
+
+        <!-- Lista de recetas -->
+        <div id="lista-recetas" class="row">
+            <!-- Aquí se renderizan las recetas dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        // Arreglo donde se almacenan las recetas
+        const recetas = [];
+
+        // Referencias al DOM
+        const formReceta = document.getElementById('form-receta');
+        const listaRecetas = document.getElementById('lista-recetas');
+        const buscador = document.getElementById('buscador');
+
+        // Función para renderizar recetas en el DOM
+        function mostrarRecetas(filtradas = recetas) {
+            listaRecetas.innerHTML = '';
+            filtradas.forEach((receta, index) => {
+                const recetaHTML = `
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="${receta.imagen}" class="card-img-top" alt="${receta.nombre}">
+                            <div class="card-body">
+                                <h5 class="card-title">${receta.nombre}</h5>
+                                <p><strong>Ingredientes:</strong> ${receta.ingredientes.join(', ')}</p>
+                                <p><strong>Pasos:</strong> ${receta.pasos.join(', ')}</p>
+                                <p><strong>Categoría:</strong> ${receta.categoria}</p>
+                                <button class="btn btn-danger" onclick="eliminarReceta(${index})">Eliminar</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                listaRecetas.insertAdjacentHTML('beforeend', recetaHTML);
+            });
+        }
+
+        // Función para agregar receta
+        formReceta.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nuevaReceta = {
+                nombre: document.getElementById('nombre').value,
+                ingredientes: document.getElementById('ingredientes').value.split(','),
+                pasos: document.getElementById('pasos').value.split(','),
+                categoria: document.getElementById('categoria').value,
+                imagen: document.getElementById('imagen').value
+            };
+            recetas.push(nuevaReceta);
+            mostrarRecetas();
+            formReceta.reset();
+        });
+
+        // Función para eliminar receta
+        function eliminarReceta(index) {
+            recetas.splice(index, 1);
+            mostrarRecetas();
+        }
+
+        // Función para buscar recetas
+        buscador.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtradas = recetas.filter(receta =>
+                receta.nombre.toLowerCase().includes(query) ||
+                receta.categoria.toLowerCase().includes(query)
+            );
+            mostrarRecetas(filtradas);
+        });
+
+        // Mostrar recetas iniciales (vacías)
+        mostrarRecetas();
+    </script>
+</body>
+</html>
