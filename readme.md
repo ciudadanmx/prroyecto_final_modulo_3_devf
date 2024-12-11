@@ -102,4 +102,4 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más 
 
 Autor 👩‍💻
 
-[Tu Nombre][Tu Correo o Enlace a Redes Sociales]
+[TAbraham Urbina ZIat][elyizuz420@gmail.com]
