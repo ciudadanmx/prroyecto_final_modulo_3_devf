@@ -31,8 +31,10 @@
                 <input type="text" id="categoria" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="imagen" class="form-label">URL de la imagen</label>
-                <input type="url" id="imagen" class="form-control" required>
+                <label for="imagen" class="form-label">Seleccionar imagen</label>
+                <input type="file" id="imagen" class="form-control" accept="image/*" required>
+                <!-- Contenedor para la vista previa de la imagen -->
+                <div id="imagen-preview" class="mt-2"></div>
             </div>
             <button type="submit" class="btn btn-primary w-100">Agregar Receta</button>
         </form>
@@ -49,6 +51,7 @@
     </div>
 
     <!-- Cargar JavaScript al final del body -->
-    <script src="/js/app.js"></script>
+    <script src="js/cargar_imagen.js"></script> <!-- Asegúrate de que este archivo esté correctamente enlazado -->
+    <script src="js/app.js"></script>
 </body>
 </html>
