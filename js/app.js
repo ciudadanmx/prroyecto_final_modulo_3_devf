@@ -23,7 +23,7 @@
                                 <p><strong>Ingredientes:</strong> ${receta.ingredientes.join(', ')}</p>
                                 <p><strong>Pasos:</strong> ${receta.pasos.join(', ')}</p>
                                 <p><strong>Categoría:</strong> ${receta.categoria}</p>
-                                <button class="btn btn-danger" onclick="eliminarReceta(${index})">Eliminar</button>
+                                <button class="btn btn-danger" onclick="eliminarReceta(${i})">Eliminar</button>
                             </div>
                         </div>
                     </div>
@@ -56,17 +56,22 @@
         });
 
         // Función para eliminar receta
-        function eliminarReceta(index) {
+        function eliminarReceta(i) {
             //se elimina la receta del array
-            recetas.splice(index, 1);
+            recetas.splice(i, 1);
             //se llama a la función para renderizar con la actualización del array
             mostrarRecetas();
         }
 
         // Función para buscar recetas
+        //acá el evento que usó en el addeventlistener no fue el submit si no el input osea que se actualiza la lista de recetas con cada tecla que se pulsa al estar en este campo.
+
         buscador.addEventListener('input', (e) => {
+            //en e se trajo el valor del input, lo pasa a minúsculas para facilitar la coincidencia y mejorar la ux
             const query = e.target.value.toLowerCase();
+            //filtra las recetas con la función de flecha que se llama a sí misma que recibe como parámetro la función filter y dentro de ella se hace la coincidencia con el nombre o la categoria con lo que se dijo del callback.... lo confirmé con chatgpt le pegué este comentario y me explicó que... "La función filter recibe un callback (una función que se pasa como parámetro), y dentro de ese callback, la condición que mencionas es lo que se evalúa para decidir si una receta se debe incluir en el resultado filtrado o no"
             const filtradas = recetas.filter(receta =>
+                //busca la coincidencia tanto en la propiedad categorria como en la propiedad nombre
                 receta.nombre.toLowerCase().includes(query) ||
                 receta.categoria.toLowerCase().includes(query)
             );

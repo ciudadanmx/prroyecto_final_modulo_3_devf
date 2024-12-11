@@ -1,0 +1,78 @@
+.sombreado {
+    margin: 100px;
+    border: 2px solid #99dcec; 
+    box-shadow: 3px 3px 5px rgba(142, 238, 146, 0.2);
+    border-radius: 8%;
+}
+
+
+/* Estilo para el input con transición */
+#buscador {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out; /* Transición suave */
+}
+
+#buscador:focus {
+    border-color: #9c7b0f; /* Cambia el color del borde al estar enfocado */
+    box-shadow: 0 0 10px rgba(185, 156, 27, 0.5); /* Efecto de sombra para resaltar */
+    outline: none; /* Elimina el borde predeterminado del navegador */
+}
+
+/* Estilo para las cards de recetas con transiciones */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Efecto de elevación al pasar el cursor */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+}
+
+.card-img-top {
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.1); /* Efecto de zoom en la imagen al pasar el cursor */
+}
+
+/* Estilo para el texto dentro de la card */
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s ease-in-out;
+}
+
+.card:hover .card-title {
+    color: #fff200; /* Cambia el color del título al hacer hover */
+}
+
+/* Botón de eliminar en la card */
+.card-body .btn-danger {
+    background-color: #ff3b30;
+    border-color: #ff3b30;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.card-body .btn-danger:hover {
+    background-color: #e03e2d; /* Cambia el color del botón al hacer hover */
+    transform: scale(1.1); /* Efecto de crecimiento en el botón */
+}
+
+/* Agregar un poco de relleno y ajuste en el layout */
+.container {
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
