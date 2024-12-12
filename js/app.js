@@ -14,7 +14,7 @@ function mostrarRecetas(filtradas = recetas) {
         const recetaHTML = `
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="${receta.imagen}" class="card-img-top" alt="${receta.nombre}">
+                    <blockquote class="imgur-embed-pub" lang="en" data-id="lV8iUI0" data-context="false" ><a href="//imgur.com/lV8iUI0"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
                     <div class="card-body">
                         <h5 class="card-title">${receta.nombre}</h5>
                         <p><strong>Ingredientes:</strong> ${receta.ingredientes.join(', ')}</p>
