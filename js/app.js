@@ -14,7 +14,7 @@ function mostrarRecetas(filtradas = recetas) {
         const recetaHTML = `
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <img src="https://i.imgur.com/3ugChYk.jpeg" class="card-img-top" alt="${receta.nombre}">
+                    <img src="${receta.imagen}" class="card-img-top" alt="${receta.nombre}">
                     <div class="card-body">
                         <h5 class="card-title">${receta.nombre}</h5>
                         <p><strong>Ingredientes:</strong> ${receta.ingredientes.join(', ')}</p>
