@@ -1,3 +1,4 @@
+console.log("Iniciando Script");
 document.addEventListener('DOMContentLoaded', function () {
     // Seleccionamos el input de archivo y el contenedor de la vista previa
     const inputImagen = document.getElementById('imagen');
