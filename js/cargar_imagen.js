@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log('URL de la imagen:', imagenUrl);
 
                 // Mostrar la imagen en la card usando la URL de Imgur
-                mostrarImagenEnCard("https://imgur.com/wgkoGB2");
+                mostrarImagenEnCard(imagenUrl);
             }
         })
         .catch(error => {
